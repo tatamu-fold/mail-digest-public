@@ -1,0 +1,32 @@
+name: main
+
+on:
+  schedule:
+    - cron: '10 31 * * 0'
+  workflow_dispatch:
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.8' # Specify the Python version you need
+    
+      - name: Run apt and pip
+        run: |
+          sudo apt update
+          pip install requests
+
+      - name: Clone private repo and run code
+        env:
+            PAT_GITHUB: ${{ secrets.PAT_GITHUB }}
+        run: |
+            git clone https://x-access-token:${PAT_GITHUB}@github.com/tatamu-fold/mail-digest
+
+      - name: Run Python script
+        run: |
+          python mail-digest/main.py
+          

@@ -19,6 +19,7 @@ jobs:
         run: |
           sudo apt update
           pip install requests
+          pip install requests beautifulsoup4
 
       - name: Clone private repo and run code
         env:
